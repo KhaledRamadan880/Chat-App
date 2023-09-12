@@ -13,13 +13,16 @@ class AppStrings {
 
   static const String subTitle1 = 'Your new friend in your Success journey';
   static const String subTitle2 = 'Your new friend in your Success journey';
-  static const String subTitle3 = 'Learn easily with cocoon, you can access many courses just click enroll';
+  static const String subTitle3 =
+      'Learn easily with cocoon, you can access many courses just click enroll';
 
   static const String email = 'E-mail';
   static const String password = 'Password';
   static const String name = 'Name';
   static const String department = 'Department';
   static const String phoneNum = 'Phone Number';
-  static const String forgetpassword = 'forget password ?';
-  static const String enterEmail = 'Enter your email address before proceeding to password reset   ';
+  static const String forgetpassword = 'Forget Password ?';
+  static const String dontHaveEmail = 'Dont Have Email?';
+  static const String enterEmail =
+      'Enter your email address before proceeding to password reset   ';
 }

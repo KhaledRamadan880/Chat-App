@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 ThemeData appTheme() {
   return ThemeData(
+    scaffoldBackgroundColor: AppColors.white,
     textTheme: TextTheme(
-      //! Splash 
+      //! Splash
       bodyLarge: GoogleFonts.odorMeanChey(
         fontSize: 64,
         fontWeight: FontWeight.w400,
@@ -41,7 +42,6 @@ ThemeData appTheme() {
         fontWeight: FontWeight.w500,
         color: AppColors.grey,
       ),
-      
     ),
   );
 }

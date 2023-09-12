@@ -18,8 +18,7 @@ class OnBoardingScreens extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.white,
+      child: Scaffold(        
         body: PageView.builder(
             controller: dotsController,
             itemBuilder: (context, index) {
