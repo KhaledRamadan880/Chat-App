@@ -12,8 +12,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(428, 926),
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: appTheme(),
-        home: const Scaffold(),
+        theme: appTheme(),        
         initialRoute: Routes.splash,
         onGenerateRoute: AppRoutes.generateRoute,
       ),

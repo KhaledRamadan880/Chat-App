@@ -20,7 +20,7 @@ class CustomTextField extends StatelessWidget {
         hintText: hint,
         prefixIcon: Icon(prefixIcon),
         suffixIcon: showSuffix ? Icon(suffixIcon) : null,
-        //! Border
+        //! Borders
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: AppColors.grey),

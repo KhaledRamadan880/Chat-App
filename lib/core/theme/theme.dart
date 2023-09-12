@@ -9,7 +9,7 @@ ThemeData appTheme() {
       bodyLarge: GoogleFonts.odorMeanChey(
         fontSize: 64,
         fontWeight: FontWeight.w400,
-        color: AppColors.black,
+        color: AppColors.white,
       ),
       //! Purple Text
       bodyMedium: GoogleFonts.poppins(
