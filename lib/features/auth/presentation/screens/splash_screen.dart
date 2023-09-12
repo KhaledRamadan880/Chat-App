@@ -1,3 +1,5 @@
+import 'package:chat_app/core/database/cache/cache.dart';
+import 'package:chat_app/core/database/services/service_locator.dart';
 import 'package:chat_app/core/routes/routes.dart';
 import 'package:chat_app/core/theme/theme.dart';
 import 'package:chat_app/core/utils/app_colors.dart';
@@ -16,10 +18,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    bool isStarted =  serviceLocator<Cache>().getBool(key: 'isStarted') ?? false;
     Future.delayed(
       const Duration(seconds: 3),
       () {
-        navigateReplacement(context: context, route: Routes.onBoarding);
+        isStarted == true
+            ? navigateReplacement(context: context, route: Routes.signIN)
+            : navigateReplacement(context: context, route: Routes.onBoarding);
       },
     );
   }

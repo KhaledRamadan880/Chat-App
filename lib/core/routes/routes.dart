@@ -20,7 +20,7 @@ class AppRoutes {
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case Routes.onBoarding:
         return MaterialPageRoute(
-            builder: (context) => const OnBoardingScreens());
+            builder: (context) => OnBoardingScreens());
       case Routes.signIN:
         return MaterialPageRoute(builder: (context) => const SigninScreen());
       case Routes.signUp:
