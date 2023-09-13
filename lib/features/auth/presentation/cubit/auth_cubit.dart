@@ -1,9 +1,58 @@
+import 'package:chat_app/features/auth/data/repository/auth_repo.dart';
 import 'package:chat_app/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial());
+  AuthCubit(this.authRepo) : super(AuthInitial());
+
+  final AuthRepo authRepo;
+
+  //! Login Method
+  TextEditingController loginEmailController = TextEditingController();
+  TextEditingController loginPassController = TextEditingController();
+  GlobalKey<FormState> loginKey = GlobalKey<FormState>();
+  void login() async {
+    emit(LoginLoadingState());
+    var res = await authRepo.login(
+      email: loginEmailController.text,
+      password: loginPassController.text,
+    );
+    res.fold(
+      (l) => emit(LoginErrorState(l)),
+      (r) => emit(LoginSuccessState(r)),
+    );
+  }
+
+  //! Sign Up Method
+  TextEditingController signUpNameController = TextEditingController();
+  TextEditingController signUpPhoneController = TextEditingController();
+  TextEditingController signUpEmaiController = TextEditingController();
+  TextEditingController signUpPassController = TextEditingController();
+  GlobalKey<FormState> signUpKey = GlobalKey<FormState>();
+  void signUp() async {
+    emit(SignUpLoadingState());    
+    final res = await authRepo.signUp(
+      email: signUpEmaiController.text,
+      password: signUpPassController.text,      
+    );
+    res.fold(
+      (l) => emit(SignUpErrorState(l)),
+      (r) => emit(SignUpSuccesState(r)),
+    );
+  }
+
+  //! Reset Passord Send Code Method
+  TextEditingController resetPassEmaiController = TextEditingController();
+  GlobalKey<FormState> resetPassKey = GlobalKey<FormState>();
+  void sendResetPassCode() async {
+    emit(SendCodeLoadingState());
+    final res = await authRepo.resetPass(email: resetPassEmaiController.text);
+    res.fold(
+      (l) => emit(SendCodeErrorState(l)),
+      (r) => emit(SendCodeSuccessState(r)),
+    );
+  }
 
   //! Drop Icon Button
   String selectedItem = 'IT';

@@ -1,7 +1,9 @@
+import 'package:chat_app/core/routes/routes.dart';
 import 'package:chat_app/core/theme/theme.dart';
 import 'package:chat_app/core/utils/app.images.dart';
 import 'package:chat_app/core/utils/app_colors.dart';
 import 'package:chat_app/core/utils/app_strings.dart';
+import 'package:chat_app/core/utils/commons.dart';
 import 'package:chat_app/core/widgets/custom_button.dart';
 import 'package:chat_app/core/widgets/custom_text_field.dart';
 import 'package:chat_app/features/auth/presentation/cubit/auth_cubit.dart';
@@ -31,38 +33,83 @@ class SignUpScreen extends StatelessWidget {
                       )),
                   SizedBox(height: 23.h),
                   //! Form
-                  BlocBuilder<AuthCubit, AuthState>(
+                  BlocConsumer<AuthCubit, AuthState>(
+                    listener: (context, state) {
+                      if (state is SignUpSuccesState) {
+                        toast(
+                            message: state.message, state: ToastStates.success);
+                        navigateReplacement(
+                            context: context, route: Routes.signIN);
+                      }
+                      if (state is SignUpSuccesState) {
+                        toast(message: state.message, state: ToastStates.error);
+                      }
+                    },
                     builder: (context, state) {
                       final authCubit = BlocProvider.of<AuthCubit>(context);
                       return Form(
+                        key: authCubit.signUpKey,
                         child: Column(
                           children: [
                             //! Name TextField
-                            const CustomTextField(
+                            CustomTextField(
+                              controller: authCubit.signUpNameController,
                               hint: AppStrings.name,
                               prefixIcon: Icons.person_outline_sharp,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please Enter Valid Name';
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                             SizedBox(height: 30.h),
                             //! Phone Number TextField
-                            const CustomTextField(
+                            CustomTextField(
+                              controller: authCubit.signUpPhoneController,
                               hint: AppStrings.phoneNum,
                               prefixIcon: Icons.phone,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please Enter Valid Phone Number';
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                             SizedBox(height: 30.h),
                             //! Email TextField
-                            const CustomTextField(
+                            CustomTextField(
+                              controller: authCubit.signUpEmaiController,
                               hint: AppStrings.email,
                               prefixIcon: Icons.mail,
+                              validator: (value) {
+                                if (value!.isEmpty ||
+                                    !value.contains('@gmail.com')) {
+                                  return 'Please Enter Valid Email';
+                                } else {
+                                  return null;
+                                }
+                              },
                               // showSuffix: false,
                             ),
                             SizedBox(height: 30.h),
                             //! Password TextField
                             CustomTextField(
+                              controller: authCubit.signUpPassController,
                               hint: AppStrings.password,
                               prefixIcon: Icons.lock_outline,
                               suffixIcon: authCubit.eyeSuffixIcon(),
                               isObscure: authCubit.isobscure,
                               showSuffix: true,
+                              validator: (value) {
+                                if (value!.length <= 6) {
+                                  return 'Please Enter Valid Password';
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                             SizedBox(height: 30.h),
                             //! Department
@@ -94,14 +141,21 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 30.h),
-                            //! Sign Up Button0
-                            CustomButton(
-                              onPressed: () {},
-                              child: Text(
-                                AppStrings.signUp,
-                                style: appTheme().textTheme.bodySmall,
-                              ),
-                            ),
+                            //! Sign Up Button
+                            state is SignUpLoadingState
+                                ? const CircularProgressIndicator()
+                                : CustomButton(
+                                    onPressed: () {
+                                      if (authCubit.signUpKey.currentState!
+                                          .validate()) {
+                                        authCubit.signUp();
+                                      }
+                                    },
+                                    child: Text(
+                                      AppStrings.signUp,
+                                      style: appTheme().textTheme.bodySmall,
+                                    ),
+                                  ),
                           ],
                         ),
                       );

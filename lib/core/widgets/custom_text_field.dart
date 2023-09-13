@@ -9,16 +9,20 @@ class CustomTextField extends StatelessWidget {
     this.showSuffix = false,
     required this.prefixIcon,
     this.suffixIcon = const Text(''),
-    this.isObscure = false,
+    this.isObscure = false, required this.controller, this.validator,
   });
   final String hint;
   final IconData prefixIcon;
   final Widget suffixIcon;
   final bool showSuffix;
   final bool isObscure;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: validator,
+      controller: controller,
       obscureText: isObscure,
       cursorColor: AppColors.primary,
       style: appTheme().textTheme.titleMedium,

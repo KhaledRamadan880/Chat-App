@@ -31,26 +31,51 @@ class SigninScreen extends StatelessWidget {
                 SizedBox(height: 70.h),
 
                 //! Form
-                BlocBuilder<AuthCubit, AuthState>(
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is LoginSuccessState) {
+                      toast(message: state.message, state: ToastStates.success);
+                    }
+                    if (state is LoginErrorState) {
+                      toast(message: state.message, state: ToastStates.error);
+                    }
+                  },
                   builder: (context, state) {
                     final authCubit = BlocProvider.of<AuthCubit>(context);
                     return Form(
+                      key: authCubit.loginKey,
                       child: Column(
                         children: [
                           //! Email TextField
-                          const CustomTextField(
+                          CustomTextField(
+                            controller: authCubit.loginEmailController,
                             hint: AppStrings.email,
                             prefixIcon: Icons.mail,
-                            // showSuffix: false,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Valid Email';
+                              }
+                              if (!value.contains('@gmail.com')) {
+                                return 'Please Enter Valid Email';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(height: 30.h),
                           //! Password TextField
                           CustomTextField(
+                            controller: authCubit.loginPassController,
                             hint: AppStrings.password,
                             prefixIcon: Icons.lock_outline,
                             suffixIcon: authCubit.eyeSuffixIcon(),
                             isObscure: authCubit.isobscure,
                             showSuffix: true,
+                            validator: (value) {
+                              if (value!.length <= 6) {
+                                return 'Please Enter Valid Password';
+                              }
+                              return null;
+                            },
                           ),
                           //! Forget Password Text Button
                           Row(
@@ -58,7 +83,7 @@ class SigninScreen extends StatelessWidget {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  navigateNamed(
+                                  navigateReplacement(
                                       context: context,
                                       route: Routes.forgetPass);
                                 },
@@ -71,13 +96,20 @@ class SigninScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 47.h),
                           //! Sign in Button
-                          CustomButton(
-                            onPressed: () {},
-                            child: Text(
-                              AppStrings.signIn,
-                              style: appTheme().textTheme.bodySmall,
-                            ),
-                          ),
+                          state is LoginLoadingState
+                              ? const CircularProgressIndicator()
+                              : CustomButton(
+                                  onPressed: () {
+                                    if (authCubit.loginKey.currentState!
+                                        .validate()) {
+                                      authCubit.login();
+                                    }
+                                  },
+                                  child: Text(
+                                    AppStrings.signIn,
+                                    style: appTheme().textTheme.bodySmall,
+                                  ),
+                                ),
                           //! Sign up
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +120,7 @@ class SigninScreen extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  navigateNamed(
+                                  navigateReplacement(
                                       context: context, route: Routes.signUp);
                                 },
                                 child: const Text(AppStrings.signUp),
