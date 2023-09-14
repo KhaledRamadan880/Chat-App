@@ -35,6 +35,7 @@ class SigninScreen extends StatelessWidget {
                   listener: (context, state) {
                     if (state is LoginSuccessState) {
                       toast(message: state.message, state: ToastStates.success);
+                      navigateReplacement(context: context, route: Routes.chat);
                     }
                     if (state is LoginErrorState) {
                       toast(message: state.message, state: ToastStates.error);
@@ -50,14 +51,14 @@ class SigninScreen extends StatelessWidget {
                           CustomTextField(
                             controller: authCubit.loginEmailController,
                             hint: AppStrings.email,
-                            prefixIcon: Icons.mail,
+                            prefixIcon: const Icon(Icons.mail),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please Enter Valid Email';
                               }
-                              if (!value.contains('@gmail.com')) {
-                                return 'Please Enter Valid Email';
-                              }
+                              // if (!value.contains('@gmail.com')) {
+                              //   return 'Please Enter Valid Email';
+                              // }
                               return null;
                             },
                           ),
@@ -66,7 +67,7 @@ class SigninScreen extends StatelessWidget {
                           CustomTextField(
                             controller: authCubit.loginPassController,
                             hint: AppStrings.password,
-                            prefixIcon: Icons.lock_outline,
+                            prefixIcon: const Icon(Icons.lock_outline),
                             suffixIcon: authCubit.eyeSuffixIcon(),
                             isObscure: authCubit.isobscure,
                             showSuffix: true,

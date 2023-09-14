@@ -7,12 +7,12 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.hint,
     this.showSuffix = false,
-    required this.prefixIcon,
+    this.prefixIcon = const Text(''),
     this.suffixIcon = const Text(''),
     this.isObscure = false, required this.controller, this.validator,
   });
   final String hint;
-  final IconData prefixIcon;
+  final Widget prefixIcon;
   final Widget suffixIcon;
   final bool showSuffix;
   final bool isObscure;
@@ -29,7 +29,7 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(0),
         hintText: hint,
-        prefixIcon: Icon(prefixIcon),
+        prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         suffixIconColor: AppColors.primary,
         prefixIconColor: AppColors.primary,

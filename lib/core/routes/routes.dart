@@ -3,6 +3,7 @@ import 'package:chat_app/features/auth/presentation/screens/on_boarding_screens.
 import 'package:chat_app/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:chat_app/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:chat_app/features/auth/presentation/screens/splash_screen.dart';
+import 'package:chat_app/features/chat/presentation/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -11,6 +12,7 @@ class Routes {
   static const String signIN = '/signIN';
   static const String signUp = '/signUp';
   static const String forgetPass = '/forgetPass';
+  static const String chat = '/chat';
 }
 
 class AppRoutes {
@@ -28,6 +30,9 @@ class AppRoutes {
       case Routes.forgetPass:
         return MaterialPageRoute(
             builder: (context) => const ForgetPasswordScreen());
+      case Routes.chat:
+        return MaterialPageRoute(
+            builder: (context) => const ChatScreen());
     }
     return null;
   }

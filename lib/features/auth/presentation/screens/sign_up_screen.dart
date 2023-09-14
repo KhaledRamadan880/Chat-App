@@ -41,7 +41,7 @@ class SignUpScreen extends StatelessWidget {
                         navigateReplacement(
                             context: context, route: Routes.signIN);
                       }
-                      if (state is SignUpSuccesState) {
+                      if (state is SignUpErrorState) {
                         toast(message: state.message, state: ToastStates.error);
                       }
                     },
@@ -55,7 +55,8 @@ class SignUpScreen extends StatelessWidget {
                             CustomTextField(
                               controller: authCubit.signUpNameController,
                               hint: AppStrings.name,
-                              prefixIcon: Icons.person_outline_sharp,
+                              prefixIcon:
+                                  const Icon(Icons.person_outline_sharp),
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please Enter Valid Name';
@@ -69,7 +70,7 @@ class SignUpScreen extends StatelessWidget {
                             CustomTextField(
                               controller: authCubit.signUpPhoneController,
                               hint: AppStrings.phoneNum,
-                              prefixIcon: Icons.phone,
+                              prefixIcon: const Icon(Icons.phone),
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please Enter Valid Phone Number';
@@ -83,10 +84,9 @@ class SignUpScreen extends StatelessWidget {
                             CustomTextField(
                               controller: authCubit.signUpEmaiController,
                               hint: AppStrings.email,
-                              prefixIcon: Icons.mail,
+                              prefixIcon: const Icon(Icons.mail),
                               validator: (value) {
-                                if (value!.isEmpty ||
-                                    !value.contains('@gmail.com')) {
+                                if (value!.isEmpty) {
                                   return 'Please Enter Valid Email';
                                 } else {
                                   return null;
@@ -99,7 +99,7 @@ class SignUpScreen extends StatelessWidget {
                             CustomTextField(
                               controller: authCubit.signUpPassController,
                               hint: AppStrings.password,
-                              prefixIcon: Icons.lock_outline,
+                              prefixIcon: const Icon(Icons.lock_outline),
                               suffixIcon: authCubit.eyeSuffixIcon(),
                               isObscure: authCubit.isobscure,
                               showSuffix: true,

@@ -66,7 +66,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                           CustomTextField(
                             controller: cubit.resetPassEmaiController,
                             hint: AppStrings.email,
-                            prefixIcon: Icons.email,
+                            prefixIcon: const Icon(Icons.email),
                             validator: (value) {
                               if (value!.isEmpty &&
                                   !value.contains('@gmail.com')) {}

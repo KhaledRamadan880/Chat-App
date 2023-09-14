@@ -1,3 +1,4 @@
+import 'package:chat_app/features/auth/data/models/user_model.dart';
 import 'package:chat_app/features/auth/data/repository/auth_repo.dart';
 import 'package:chat_app/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class AuthCubit extends Cubit<AuthState> {
   final AuthRepo authRepo;
 
   //! Login Method
+  UserModel? userModel;
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPassController = TextEditingController();
   GlobalKey<FormState> loginKey = GlobalKey<FormState>();
@@ -20,7 +22,10 @@ class AuthCubit extends Cubit<AuthState> {
     );
     res.fold(
       (l) => emit(LoginErrorState(l)),
-      (r) => emit(LoginSuccessState(r)),
+      (r) {
+        userModel = r;
+        emit(LoginSuccessState(r.name));
+      },
     );
   }
 
@@ -31,10 +36,13 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController signUpPassController = TextEditingController();
   GlobalKey<FormState> signUpKey = GlobalKey<FormState>();
   void signUp() async {
-    emit(SignUpLoadingState());    
+    emit(SignUpLoadingState());
     final res = await authRepo.signUp(
       email: signUpEmaiController.text,
-      password: signUpPassController.text,      
+      password: signUpPassController.text,
+      name: signUpNameController.text,
+      phone: signUpPhoneController.text,
+      department: selectedItem,
     );
     res.fold(
       (l) => emit(SignUpErrorState(l)),
@@ -55,7 +63,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   //! Drop Icon Button
-  String selectedItem = 'IT';
+  String selectedItem = 'Department';
   List<String> department = ['IT', 'CS', 'IS', "AI"];
   void itemChange(value) {
     selectedItem = value;
